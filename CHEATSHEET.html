@@ -2,147 +2,145 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Modern AI Stack — Demo Cheat Sheet</title>
+<title>LangChain & LangGraph — Cheat Sheet</title>
 <style>
   @page { size: Letter portrait; margin: 0.4in; }
   :root { color-scheme: light; }
   * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  html,body { margin:0; padding:0; background:#ffffff; }
-  body {
-    font-family: -apple-system, Segoe UI, Calibri, Arial, sans-serif;
-    color:#12203a; font-size:9px; line-height:1.2; padding:10px 14px;
-    background:#ffffff;
-  }
-  h1 { font-size:17px; margin:0; color:#063b34; letter-spacing:.2px; }
-  .sub { font-size:9px; color:#5a6b86; margin:1px 0 8px; }
-  .band {
-    display:flex; gap:8px; margin:0 0 8px; padding:6px 8px;
-    background:#eef7f4; border:1px solid #bfe3da; border-radius:6px;
-  }
+  html,body { margin:0; padding:0; background:#fff; }
+  body { font-family:-apple-system,Segoe UI,Calibri,Arial,sans-serif; color:#12203a; font-size:9px; line-height:1.28; padding:12px 14px; background:#fff; }
+  h1 { font-size:17px; margin:0; color:#063b34; }
+  .sub { font-size:9px; color:#5a6b86; margin:1px 0 7px; }
+  code,.mono { font-family:"SF Mono",Consolas,"Courier New",monospace; }
+  .band { margin:0 0 8px; padding:6px 8px; background:#eef7f4; border:1px solid #bfe3da; border-radius:6px; }
   .band b { color:#026a5b; }
-  code, .mono { font-family:"SF Mono",Consolas,"Courier New",monospace; }
-  .env { font-size:8.4px; color:#0c3b34; }
-  table { width:100%; border-collapse:collapse; margin-bottom:6px; }
-  th { text-align:left; font-size:8px; text-transform:uppercase; letter-spacing:.4px;
-       color:#5a6b86; border-bottom:1.5px solid #026a5b; padding:3px 5px; }
-  td { vertical-align:top; padding:2.5px 5px; border-bottom:1px solid #e3e8f0; }
-  tr:nth-child(even) td { background:#f6f9fc; }
-  .n { font-weight:700; color:#02a17f; width:14px; }
-  .tool { font-weight:700; color:#0d2b46; white-space:nowrap; }
-  .layer { display:block; font-size:7.4px; font-weight:600; color:#8a97ad; text-transform:uppercase; letter-spacing:.3px; }
-  .cmd { color:#0a4a3f; white-space:nowrap; font-size:8.4px; }
-  .say { color:#33425c; }
-  .gotcha { color:#b26a00; font-weight:600; }
-  .cols { display:flex; gap:10px; margin-bottom:6px; }
-  .box { flex:1; border:1px solid #d7dfea; border-radius:6px; padding:5px 8px; }
-  .box h3 { margin:0 0 3px; font-size:9px; color:#026a5b; text-transform:uppercase; letter-spacing:.4px; }
-  .box p, .box div { margin:2px 0; }
-  .pill { display:inline-block; background:#eef2f8; border-radius:4px; padding:0 4px; margin:1px 2px 1px 0; font-size:8px; }
-  .foot { margin-top:6px; font-size:8px; color:#8a97ad; text-align:center; }
+  .cols { display:flex; gap:10px; }
+  .col { flex:1; }
+  .box { border:1px solid #d7dfea; border-radius:6px; padding:6px 9px; margin-bottom:8px; }
+  .box h2 { margin:0 0 4px; font-size:11px; color:#0d2b46; }
+  .box h2 .tag { font-size:8px; font-weight:700; color:#02a17f; text-transform:uppercase; letter-spacing:.5px; }
+  .box h3 { margin:6px 0 2px; font-size:9px; color:#026a5b; }
+  pre { margin:2px 0 4px; padding:5px 7px; background:#0f1a30; color:#9fe7d4; border-radius:4px; font-size:8.2px; line-height:1.35; white-space:pre-wrap; overflow-x:auto; }
+  pre .c { color:#7f8bb0; }
+  .n { color:#33425c; margin:1px 0; }
+  b.k { color:#0d2b46; }
+  .flow { display:flex; flex-wrap:wrap; gap:3px; margin-top:2px; }
+  .pill { background:#eef2f8; border-radius:4px; padding:0 5px; font-size:8px; }
+  table { width:100%; border-collapse:collapse; }
+  td { padding:2px 4px; border-bottom:1px solid #e6ebf2; vertical-align:top; }
+  .foot { text-align:center; font-size:8px; color:#8a97ad; margin-top:4px; }
 </style>
 </head>
 <body>
-  <h1>Modern AI Stack — Live Demo Cheat Sheet</h1>
-  <div class="sub">Production-Ready AI Agents · one OpenRouter key · run order = slide order · full script in README.md §4</div>
+  <h1>LangChain &amp; LangGraph — Hands-on Cheat Sheet</h1>
+  <div class="sub">One gateway (LiteLLM Proxy / OpenRouter) · notebooks run top-to-bottom · <span class="mono">jupyter lab</span></div>
 
-  <div class="band">
-    <div><b>Pre-flight (10 min before):</b> <code>source .venv/bin/activate &amp;&amp; python smoke_test.py</code> → all-green.
-    &nbsp;·&nbsp; <b>Tabs open:</b> Studio · localhost:8000/docs · LangSmith · Langfuse.
-    &nbsp;·&nbsp; <b>2 terminals</b> (LangServe + LangSmith). &nbsp;·&nbsp; <b>Backup recordings</b> ready.</div>
-  </div>
-
-  <table>
-    <thead><tr><th>#</th><th>Tool</th><th>Run</th><th>Say / show · gotcha</th></tr></thead>
-    <tbody>
-      <tr><td class="n">1</td>
-        <td class="tool">LangChain<span class="layer">Foundation</span></td>
-        <td class="cmd mono">python demos/01_langchain.py</td>
-        <td class="say">One API over any model; <span class="mono">prompt | model | parser</span> composes; tool-calling powers every agent layer. Show LCEL, tool_calls, streaming.</td></tr>
-
-      <tr><td class="n">2</td>
-        <td class="tool">LangGraph<span class="layer">Orchestration</span></td>
-        <td class="cmd mono">python demos/02_langgraph.py</td>
-        <td class="say">Chains are DAGs; agents need loops + durable state. Checkpointer is why Q2 ("the Scout?") answers from memory.</td></tr>
-
-      <tr><td class="n">3</td>
-        <td class="tool">LangGraph Studio<span class="layer">Ship &amp; Debug</span></td>
-        <td class="cmd mono">langgraph dev</td>
-        <td class="say">Visual IDE for agents — pick <span class="mono">agent</span> graph, submit a query, watch agent→tools→agent, fork &amp; replay a node. <span class="gotcha">Gotcha: if 3.13 fails, use 3.11/3.12 or play the GIF.</span></td></tr>
-
-      <tr><td class="n">4</td>
-        <td class="tool">LangServe<span class="layer">Ship &amp; Debug</span></td>
-        <td class="cmd mono">python demos/04_langserve.py</td>
-        <td class="say">Any runnable → REST API. Open <span class="mono">/joke/playground/</span> + <span class="mono">/docs</span>, then <span class="mono">curl /joke/invoke</span>. Prod path = LangGraph Platform. <span class="gotcha">Needs 2nd terminal.</span></td></tr>
-
-      <tr><td class="n">5</td>
-        <td class="tool">LangMem<span class="layer">Memory &amp; Data</span></td>
-        <td class="cmd mono">python demos/05_langmem.py</td>
-        <td class="say">Checkpointer remembers a thread; LangMem remembers the user — extracts durable facts to reuse across sessions.</td></tr>
-
-      <tr><td class="n">6</td>
-        <td class="tool">LangExtract<span class="layer">Memory &amp; Data</span></td>
-        <td class="cmd mono">python demos/06_langextract.py</td>
-        <td class="say">Structured extraction grounded to exact source spans — auditable, not just "return JSON". Show <span class="mono">span=</span>. <span class="gotcha">Gotcha: pre-run this one; Gemini-key fallback in docstring.</span></td></tr>
-
-      <tr><td class="n">7</td>
-        <td class="tool">LlamaIndex<span class="layer">Memory &amp; Data</span></td>
-        <td class="cmd mono">python demos/07_llamaindex.py</td>
-        <td class="say">RAG engine: ingest→embed→index→query with sources. Remote LLM + <b>local</b> embeddings (OpenRouter has none).</td></tr>
-
-      <tr><td class="n">8</td>
-        <td class="tool">DSPy<span class="layer">Optimize</span></td>
-        <td class="cmd mono">python demos/08_dspy.py</td>
-        <td class="say">Don't hand-tune prompts — declare a Signature, let the teleprompter compile few-shot demos. Show before/after + <span class="mono">inspect_history</span>. <span class="gotcha">~20–40s, several calls.</span></td></tr>
-
-      <tr><td class="n">9</td>
-        <td class="tool">CrewAI<span class="layer">Multi-Agent</span></td>
-        <td class="cmd mono">python demos/09_crewai.py</td>
-        <td class="say">Role-based team: role·goal·backstory, tasks flow Analyst→Writer. Show verbose logs + final summary.</td></tr>
-
-      <tr><td class="n">10</td>
-        <td class="tool">AutoGen<span class="layer">Multi-Agent</span></td>
-        <td class="cmd mono">python demos/10_autogen.py</td>
-        <td class="say">Conversational topology — writer↔critic iterate until "APPROVE". <span class="gotcha">model_info required to drive non-OpenAI models.</span></td></tr>
-
-      <tr><td class="n">11</td>
-        <td class="tool">LangSmith<span class="layer">Observability</span></td>
-        <td class="cmd mono">python demos/11_langsmith.py</td>
-        <td class="say">3 env vars → every LC/LG run auto-traced. Open smith.langchain.com, expand tree: latency/tokens/cost. Callback: re-run demo 2, it appears here.</td></tr>
-
-      <tr><td class="n">12</td>
-        <td class="tool">Langfuse<span class="layer">Observability</span></td>
-        <td class="cmd mono">python demos/12_langfuse.py</td>
-        <td class="say">OSS, framework-agnostic, self-hostable. Callback or <span class="mono">@observe</span> + custom score. Open cloud.langfuse.com → Traces. <span class="gotcha">Must flush() before exit (script does).</span></td></tr>
-    </tbody>
-  </table>
+  <div class="band"><b>Pre-flight:</b> <code>source .venv/bin/activate &amp;&amp; python smoke_test.py</code> → all-green.
+    &nbsp;·&nbsp; <b>Kernel:</b> Python (modern-ai-stack .venv). &nbsp;·&nbsp; <b>Reset:</b> Kernel → Restart &amp; Run All.</div>
 
   <div class="cols">
-    <div class="box">
-      <h3>90-min spine</h3>
-      <div><span class="pill">0–8 Intro + stack map</span><span class="pill">8–30 LangChain→Studio→Serve</span><span class="pill">30–42 Memory/Data</span>
-      <span class="pill">42–52 DSPy</span><span class="pill">52–68 Multi-agent</span><span class="pill">68–82 Observability</span><span class="pill">82–90 Architecture + Q&amp;A</span></div>
+    <!-- LEFT: LangChain -->
+    <div class="col">
+      <div class="box">
+        <h2><span class="tag">Notebook 01</span><br>LangChain — the foundation</h2>
+
+        <h3>LCEL — compose with the pipe</h3>
+<pre>chain = prompt | llm | parser
+chain.invoke({"topic": "agents"})
+for c in chain.stream({...}): print(c, end="")  <span class="c"># live</span></pre>
+
+        <h3>Tool calling</h3>
+<pre>@tool
+def get_stock(sku: str) -> int:
+    'Units in stock for a SKU.'   <span class="c"># docstring = when to use</span>
+    return {...}.get(sku, 0)
+
+m = llm.bind_tools([get_stock]).invoke("Hauler stock?")
+m.tool_calls   <span class="c"># model REQUESTS the call (no result yet)</span></pre>
+
+        <h3>Close the loop</h3>
+<pre>msgs = [HumanMessage(q), m]
+for tc in m.tool_calls:
+    msgs.append(get_stock.invoke(tc))  <span class="c"># -> ToolMessage</span>
+llm_with_tools.invoke(msgs).content    <span class="c"># final answer</span></pre>
+        <div class="n"><b class="k">Key:</b> the model only <i>asks</i> — you run the tool &amp; feed it back. LangGraph automates this.</div>
+      </div>
+
+      <div class="box">
+        <h2>LangGraph Studio <span class="tag">terminal</span></h2>
+<pre>langgraph dev   <span class="c"># opens the visual IDE</span></pre>
+        <div class="n">Submit a query → watch <b class="k">agent → tools → agent</b>, open a node to see <b class="k">state</b>, then <b class="k">fork &amp; replay</b>.</div>
+      </div>
+
+      <div class="box">
+        <h2>LangChain vs LangGraph</h2>
+        <table>
+          <tr><td><b class="k">LangChain</b></td><td>linear chain (DAG), one pass, predictable</td></tr>
+          <tr><td><b class="k">LangGraph</b></td><td>graph with loops + state, branching, HITL</td></tr>
+        </table>
+        <div class="n">Rule: LangChain for linear chains; LangGraph the moment you need <b class="k">loops, state, or branching</b>.</div>
+      </div>
     </div>
-    <div class="box">
-      <h3>If running long — drop these</h3>
-      <div>DSPy compile (show recording) · one of CrewAI/AutoGen.</div>
-      <h3 style="margin-top:5px">Must-show spine</h3>
-      <div>LangChain → LangGraph → LangServe → LlamaIndex → LangSmith.</div>
+
+    <!-- RIGHT: LangGraph -->
+    <div class="col">
+      <div class="box">
+        <h2><span class="tag">Notebook 02</span><br>LangGraph — stateful agents</h2>
+
+        <h3>1 · State graph from scratch</h3>
+<pre>from langgraph.graph import StateGraph, START, END
+g = StateGraph(State)
+g.add_node("write", write); g.add_node("critique", critique)
+g.add_edge(START, "write"); g.add_edge("write", "critique")
+g.add_edge("critique", END)
+app = g.compile(); app.invoke({"topic": ...})</pre>
+
+        <h3>2 · Conditional edges (branching)</h3>
+<pre>def router(s): return "math" if ... else "chat"
+g.add_conditional_edges("classify", router,
+                        {"math":"math","chat":"chat"})</pre>
+
+        <h3>3 · ReAct agent (the loop, automated)</h3>
+<pre>from langchain.agents import create_agent
+agent = create_agent(llm, tools=[inventory, price])
+agent.invoke({"messages":[("user", q)]})</pre>
+
+        <h3>4 · Memory (checkpointer)</h3>
+<pre>from langgraph.checkpoint.memory import MemorySaver
+agent = create_agent(llm, tools, checkpointer=MemorySaver())
+cfg = {"configurable": {"thread_id": "1"}}
+agent.invoke({"messages":[("user", q)]}, cfg)  <span class="c"># remembers</span></pre>
+
+        <h3>5 · Human-in-the-loop</h3>
+<pre>agent = create_agent(llm, tools, checkpointer=MemorySaver(),
+                     interrupt_before=["tools"])   <span class="c"># pause</span>
+agent.invoke({...}, cfg)               <span class="c"># stops before tool</span>
+agent.get_state(cfg).next              <span class="c"># ('tools',)</span>
+agent.invoke(None, cfg)                <span class="c"># approve -> resume</span></pre>
+        <div class="n"><b class="k">Note:</b> use <span class="mono">create_agent</span> (not the deprecated <span class="mono">create_react_agent</span>).</div>
+      </div>
     </div>
   </div>
 
   <div class="cols">
-    <div class="box">
-      <h3>OpenRouter setup</h3>
-      <div class="env mono">OpenAI-compatible → base_url https://openrouter.ai/api/v1<br>
-      LiteLLM (DSPy, CrewAI) → prefix model "openrouter/…"<br>
-      Embeddings → LOCAL HuggingFace all-MiniLM-L6-v2 (no OR endpoint)</div>
+    <div class="col box">
+      <h2>90-min flow</h2>
+      <div class="flow">
+        <span class="pill">0–10 why a framework</span><span class="pill">10–35 LangChain (nb01)</span>
+        <span class="pill">35–45 the bridge</span><span class="pill">45–80 LangGraph (nb02)</span>
+        <span class="pill">80–90 Studio + Q&amp;A</span>
+      </div>
     </div>
-    <div class="box">
-      <h3>If it breaks live</h3>
-      <div>401 → key/credit · 404 model → swap slug in .env (openrouter.ai/models) · no traces → LANGSMITH_TRACING=true in .env · API dies → play the recording, keep talking.</div>
+    <div class="col box">
+      <h2>If it breaks</h2>
+      <table>
+        <tr><td>No output</td><td>wrong kernel → pick <b class="k">.venv</b>, Restart &amp; Run All</td></tr>
+        <tr><td>401 / 404</td><td>check BASE_URL / API_KEY / model alias</td></tr>
+        <tr><td>403 smith</td><td>set <span class="mono">LANGSMITH_TRACING=false</span>, restart kernel</td></tr>
+      </table>
     </div>
   </div>
 
-  <div class="foot">One-liner to land: “A prototype is a prompt. Production is the stack around it.”</div>
+  <div class="foot">“Chains flow one way; agents loop, remember, branch, and pause for you.”</div>
 </body>
 </html>
