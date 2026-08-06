@@ -1,0 +1,26 @@
+# ---- SECRETS: never commit ----
+.env
+.env.local
+*.key
+
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# ---- Node (used only to build the deck) ----
+node_modules/
+package-lock.json
+
+# ---- Demo outputs ----
+langextract_demo.jsonl
+*.jsonl
+
+# ---- OS / editor ----
+.DS_Store
+.claude/settings.local.json
+
+# NOTE: .env.example IS committed (safe — placeholders only)

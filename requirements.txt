@@ -1,0 +1,38 @@
+# ---- Core / shared ----
+python-dotenv
+
+# ---- LangChain family ----
+langchain
+langchain-openai
+langchain-community
+langchain-huggingface
+langgraph
+langgraph-cli[inmem]     # for `langgraph dev` + LangGraph Studio
+langserve[all]
+langmem
+
+# ---- Data / RAG / extraction ----
+llama-index
+llama-index-llms-openai-like
+llama-index-embeddings-huggingface
+langextract
+
+# ---- Optimization ----
+dspy-ai
+
+# ---- Multi-agent ----
+crewai
+autogen-agentchat
+autogen-ext[openai]
+
+# ---- Observability ----
+langsmith
+langfuse
+
+# ---- Serving deps ----
+fastapi
+uvicorn
+sse-starlette
+
+# ---- Local embeddings backend ----
+sentence-transformers
