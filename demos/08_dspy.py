@@ -12,10 +12,11 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import dspy
-from config import SMART_MODEL_LITELLM, OPENROUTER_API_KEY, assert_key
+from config import SMART_MODEL_LITELLM, API_KEY, BASE_URL, assert_key
 
 assert_key()
-dspy.configure(lm=dspy.LM(SMART_MODEL_LITELLM, api_key=OPENROUTER_API_KEY))
+# "openai/<model>" + api_base => treat any gateway as a generic OpenAI endpoint.
+dspy.configure(lm=dspy.LM(SMART_MODEL_LITELLM, api_key=API_KEY, api_base=BASE_URL))
 
 class QA(dspy.Signature):
     """Answer with ONLY the final number, no words."""

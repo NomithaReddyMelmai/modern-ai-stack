@@ -29,23 +29,30 @@ pip install -U pip
 pip install -r requirements.txt    # 5–10 min; grab a coffee
 ```
 
-## 4. Get your API keys (free tiers)
-You need **one required** key and **two optional** ones.
+## 4. Get your gateway credentials
+One OpenAI-compatible gateway powers **every** tool. Use whichever your host provides:
 
-| Key | Required? | Where | Notes |
-|---|---|---|---|
-| **OpenRouter** | ✅ Required | https://openrouter.ai/keys | Add **~$5 credit** — the multi-agent demos make many calls |
-| LangSmith | Optional | https://smith.langchain.com → Settings → API Keys | For the tracing demo |
-| Langfuse | Optional | https://cloud.langfuse.com → Settings → API Keys | For the OSS observability demo |
+**LiteLLM Proxy (our team gateway):** you'll get a **base URL** and a **virtual key**
+(`sk-...`) in **[your channel — e.g. Slack #ai-workshop]**. Ask for your key if you
+don't have one. You'll also need the **model aliases** the proxy exposes (e.g.
+`claude-sonnet`, `gpt-4o-mini`).
 
-> 💡 One OpenRouter key powers **every** tool in the workshop. Embeddings run
-> locally (no extra key needed).
+*(Alternative — OpenRouter: create a key at https://openrouter.ai/keys and add ~$5 credit.)*
 
-## 5. Add your keys
+**Optional — observability demos only:**
+| Key | Where |
+|---|---|
+| LangSmith | https://smith.langchain.com → Settings → API Keys |
+| Langfuse | https://cloud.langfuse.com → Settings → API Keys |
+
+> 💡 Embeddings run **locally** (HuggingFace) — no gateway needed for the RAG demo.
+
+## 5. Add your credentials
 ```bash
 cp .env.example .env
 ```
-Open `.env` and paste your keys. **Never commit this file** (it's git-ignored).
+Open `.env`, keep the **LiteLLM Proxy** block, and fill in `BASE_URL`, `API_KEY`,
+and the `SMART_MODEL` / `FAST_MODEL` aliases. **Never commit this file** (git-ignored).
 
 ## 6. Pre-flight — the one thing that must pass ✅
 ```bash
@@ -68,8 +75,9 @@ All set. 🚀
 ## Troubleshooting
 | Symptom | Fix |
 |---|---|
-| `OPENROUTER_API_KEY is not set` | You skipped step 5 — `cp .env.example .env` and paste your key |
-| 401 from OpenRouter | Key typo, or no credit on the account |
+| `No API key set` | You skipped step 5 — `cp .env.example .env` and set `BASE_URL` + `API_KEY` |
+| 401 / auth error | Key typo, wrong `BASE_URL`, or (OpenRouter) no credit |
+| Model not found / 404 | `SMART_MODEL` / `FAST_MODEL` must match an alias your gateway exposes |
 | `No module named autogen_agentchat` | `pip install -U "autogen-agentchat>=0.4" "autogen-ext[openai]"` |
 | protobuf conflict warning | Harmless — ignore unless an import actually fails |
 | Embedding download slow | Expected once (~90 MB); let it finish |

@@ -12,10 +12,11 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from crewai import Agent, Task, Crew, Process, LLM
-from config import FAST_MODEL_LITELLM, OPENROUTER_API_KEY, assert_key
+from config import FAST_MODEL_LITELLM, API_KEY, BASE_URL, assert_key
 
 assert_key()
-llm = LLM(model=FAST_MODEL_LITELLM, api_key=OPENROUTER_API_KEY)
+# "openai/<model>" + base_url => works with OpenRouter or a LiteLLM proxy.
+llm = LLM(model=FAST_MODEL_LITELLM, api_key=API_KEY, base_url=BASE_URL)
 
 researcher = Agent(
     role="Market Analyst",
