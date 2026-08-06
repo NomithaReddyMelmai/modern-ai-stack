@@ -72,6 +72,17 @@ All set. 🚀
 
 ---
 
+## 7. Launch the hands-on notebooks
+The workshop is driven from Jupyter notebooks in `notebooks/`:
+```bash
+jupyter lab
+```
+Open `notebooks/01_langchain.ipynb`, confirm the kernel is your **`.venv`** (top-right),
+and run top to bottom. Each notebook ends with a **🧪 Your turn** exercise — that's the
+hands-on part. See `notebooks/README.md` for the run order.
+
+---
+
 ## Troubleshooting
 | Symptom | Fix |
 |---|---|

@@ -36,3 +36,8 @@ sse-starlette
 
 # ---- Local embeddings backend ----
 sentence-transformers
+
+# ---- Hands-on notebooks ----
+jupyterlab
+ipykernel
+nest_asyncio
