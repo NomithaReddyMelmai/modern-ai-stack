@@ -91,6 +91,7 @@ hands-on part. See `notebooks/README.md` for the run order.
 | Model not found / 404 | `SMART_MODEL` / `FAST_MODEL` must match an alias your gateway exposes |
 | `No module named autogen_agentchat` | `pip install -U "autogen-agentchat>=0.4" "autogen-ext[openai]"` |
 | protobuf conflict warning | Harmless — ignore unless an import actually fails |
+| `403 Forbidden ... smith.langchain.com` | LangSmith tracing is on without a real key. Set `LANGSMITH_TRACING=false` (or paste a real key), then restart the kernel. Output is unaffected. |
 | Embedding download slow | Expected once (~90 MB); let it finish |
 | `langgraph dev` won't start | Use a Python 3.11/3.12 venv |
 
