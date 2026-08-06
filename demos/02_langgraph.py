@@ -11,7 +11,7 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langgraph.checkpoint.memory import MemorySaver
 from config import get_langchain_llm, assert_key
 
@@ -30,7 +30,7 @@ def price(sku: str) -> int:
 
 # A full ReAct agent (LLM + tools + loop) in one line, with a checkpointer
 # so the same thread_id remembers the conversation.
-agent = create_react_agent(llm, tools=[inventory, price], checkpointer=MemorySaver())
+agent = create_agent(llm, tools=[inventory, price], checkpointer=MemorySaver())
 cfg = {"configurable": {"thread_id": "demo-thread-1"}}
 
 def ask(q):

@@ -1,43 +1,16 @@
-# ---- Core / shared ----
+# ---- Core ----
 python-dotenv
 
-# ---- LangChain family ----
+# ---- LangChain + LangGraph (this workshop) ----
 langchain
 langchain-openai
-langchain-community
-langchain-huggingface
 langgraph
 langgraph-cli[inmem]     # for `langgraph dev` + LangGraph Studio
-langserve[all]
-langmem
 
-# ---- Data / RAG / extraction ----
-llama-index
-llama-index-llms-openai-like
-llama-index-embeddings-huggingface
-langextract
-
-# ---- Optimization ----
-dspy-ai
-
-# ---- Multi-agent ----
-crewai
-autogen-agentchat
-autogen-ext[openai]
-
-# ---- Observability ----
-langsmith
-langfuse
-
-# ---- Serving deps ----
+# ---- Serving deps (LangGraph dev server) ----
 fastapi
 uvicorn
-sse-starlette
-
-# ---- Local embeddings backend ----
-sentence-transformers
 
 # ---- Hands-on notebooks ----
 jupyterlab
 ipykernel
-nest_asyncio
