@@ -67,6 +67,7 @@ Opens the visual IDE for the graph in [`demos/studio_app/graph.py`](demos/studio
 Submit a query → watch **agent → tools → agent** flow, open a node to inspect **state**,
 then **fork & replay** from a step.
 - **Say:** *"Codegen writes the graph; Studio + tracing tell you if it actually works."*
+- **Full walkthrough + talking points:** [`STUDIO.md`](STUDIO.md). Needs `langgraph-cli[inmem]` ≥ 0.2 and a free LangSmith login for the UI (the graph runs locally).
 
 > Standalone scripts (same code, if you prefer a terminal to notebooks):
 > [`demos/01_langchain.py`](demos/01_langchain.py), [`demos/02_langgraph.py`](demos/02_langgraph.py).

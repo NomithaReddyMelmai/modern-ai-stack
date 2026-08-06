@@ -80,7 +80,9 @@ ends with a **🧪 Your turn** exercise — that's the hands-on part.
 | Model not found / 404 | `SMART_MODEL` / `FAST_MODEL` must match an alias your gateway exposes |
 | `403 Forbidden ... smith.langchain.com` | LangSmith tracing is on without a real key — set `LANGSMITH_TRACING=false` in `.env`, restart the kernel. Output is unaffected. |
 | Notebook shows no output | Wrong kernel — pick **`Python (modern-ai-stack .venv)`**, then Restart Kernel & Run All |
-| `langgraph dev` won't start | Use a Python 3.11/3.12 venv |
+| `langgraph dev` → `No such command 'dev'` | CLI too old — `pip install -U "langgraph-cli[inmem]"` |
+| Studio UI won't load | Sign into a free LangSmith account; use Chrome/Edge. See [`STUDIO.md`](STUDIO.md) |
+| `langgraph dev` still won't start | Use a Python 3.11/3.12 venv |
 
 **Stuck? Reply to the invite before the session** so we can sort it out in advance —
 not during. See you there! 🙌

@@ -9,7 +9,7 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from config import get_langchain_llm
 
 llm = get_langchain_llm()
@@ -24,4 +24,4 @@ def price(sku: str) -> int:
     """List price in USD for a product SKU."""
     return {"scout": 18000, "hauler": 42000, "sentinel": 30000}.get(sku.lower(), 0)
 
-graph = create_react_agent(llm, tools=[inventory, price])
+graph = create_agent(llm, tools=[inventory, price])
