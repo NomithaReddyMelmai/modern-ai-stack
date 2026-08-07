@@ -24,3 +24,7 @@ langextract_demo.jsonl
 .claude/settings.local.json
 
 # NOTE: .env.example IS committed (safe — placeholders only)
+
+# LangGraph dev server runtime artifacts
+.langgraph_api/
+*.pckl
