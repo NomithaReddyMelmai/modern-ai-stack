@@ -83,6 +83,8 @@ ends with a **🧪 Your turn** exercise — that's the hands-on part.
 | `langgraph dev` → `No such command 'dev'` | CLI too old — `pip install -U "langgraph-cli[inmem]"` |
 | Studio UI won't load | Sign into a free LangSmith account; use Chrome/Edge. See [`STUDIO.md`](STUDIO.md) |
 | `langgraph dev` still won't start | Use a Python 3.11/3.12 venv |
+| Studio breaks after installing LangServe | Don't install `langserve[all]` — it pins `sse-starlette<2`, which breaks `langgraph dev`. Use plain `langserve` (as pinned in `requirements.txt`) |
+| LangServe port already in use | `lsof -ti:8000 \| xargs kill`, or edit the port in `demos/04_langserve.py` |
 
 **Stuck? Reply to the invite before the session** so we can sort it out in advance —
 not during. See you there! 🙌
