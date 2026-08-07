@@ -36,7 +36,7 @@ print()
 # 3) Tool calling — the model REQUESTS a tool; you execute it and feed it back
 @tool
 def get_stock_level(sku: str) -> int:
-    """Return the number of units in stock for a given product SKU."""
+    """Return units in stock for a SKU. The sku is the lowercase product name, e.g. 'hauler'."""
     return {"scout": 12, "hauler": 3, "sentinel": 0}.get(sku.lower(), 0)
 
 llm_with_tools = llm.bind_tools([get_stock_level])
