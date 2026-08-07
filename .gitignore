@@ -28,3 +28,8 @@ langextract_demo.jsonl
 # LangGraph dev server runtime artifacts
 .langgraph_api/
 *.pckl
+
+# Presenter materials — kept local, not in the repo
+*.pptx
+*.pdf
+CHEATSHEET.html

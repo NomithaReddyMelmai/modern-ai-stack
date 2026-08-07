@@ -38,7 +38,7 @@ One gateway powers everything — see the two blocks in [`.env.example`](.env.ex
 | 85–95 | **LangServe**: deploy the chain as an API | ② Ship | `demos/04_langserve.py` |
 | 95–100 | Recap ("two layers done") + tease Phases 5–8 | — | — |
 
-Deck: [`LangChain_LangGraph_Workshop.pptx`](LangChain_LangGraph_Workshop.pptx) (10 slides).
+Deck, cheat sheet, and setup PDF are kept **outside this repo** (local presenter materials, not committed) — see `../workshop-materials/`.
 Roadmap & use case: `~/Desktop/acme-support-agent/` (`PLAN.md`, `USECASE.md`).
 
 ---
