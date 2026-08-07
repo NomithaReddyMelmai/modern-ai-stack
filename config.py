@@ -49,6 +49,11 @@ SMART_MODEL_LITELLM = f"openai/{SMART_MODEL}"
 # Local embedding model — runs on the laptop, no API key, ~90MB download once.
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
+# Some reasoning models (e.g. gpt-5.x) reject tool-calling unless reasoning_effort
+# is 'none'. Default to 'none' on a LiteLLM proxy so tools/agents work; leave unset
+# for OpenRouter (non-reasoning models reject the param). Override via REASONING_EFFORT.
+REASONING_EFFORT = _env("REASONING_EFFORT") or ("none" if _litellm_mode else None)
+
 # ---- Backward-compatible aliases (so older demos keep importing cleanly) ----
 OPENROUTER_BASE_URL = BASE_URL
 OPENROUTER_API_KEY = API_KEY
@@ -57,12 +62,10 @@ OPENROUTER_API_KEY = API_KEY
 def get_langchain_llm(model: str = SMART_MODEL, temperature: float = 0.0):
     """LangChain / LangGraph / LangServe / LangMem chat model via the gateway."""
     from langchain_openai import ChatOpenAI
-    return ChatOpenAI(
-        model=model,
-        temperature=temperature,
-        base_url=BASE_URL,
-        api_key=API_KEY,
-    )
+    kwargs = dict(model=model, temperature=temperature, base_url=BASE_URL, api_key=API_KEY)
+    if REASONING_EFFORT:                       # needed for tool-calling on reasoning models
+        kwargs["reasoning_effort"] = REASONING_EFFORT
+    return ChatOpenAI(**kwargs)
 
 
 def get_langchain_embeddings():
