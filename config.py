@@ -16,17 +16,30 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# --- Gateway (any OpenAI-compatible endpoint). New names first, old ones as fallback. ---
-BASE_URL = (os.environ.get("BASE_URL")
-            or os.environ.get("OPENROUTER_BASE_URL")
-            or "https://openrouter.ai/api/v1")
-API_KEY = os.environ.get("API_KEY") or os.environ.get("OPENROUTER_API_KEY", "")
+# --- Gateway (any OpenAI-compatible endpoint) ---
+# We accept several env-var naming conventions so your .env "just works":
+#   BASE_URL / API_KEY               (generic)
+#   LITELLM_BASE_URL / LITELLM_API_KEY   (LiteLLM proxy)
+#   OPENROUTER_BASE_URL / OPENROUTER_API_KEY  (OpenRouter fallback)
+_env = os.environ.get
+# LiteLLM mode = a LiteLLM proxy URL + key are both present.
+_litellm_mode = bool(_env("LITELLM_BASE_URL") and _env("LITELLM_API_KEY"))
+
+BASE_URL = (_env("BASE_URL") or _env("LITELLM_BASE_URL")
+            or _env("OPENROUTER_BASE_URL") or "https://openrouter.ai/api/v1")
+API_KEY = (_env("API_KEY") or _env("LITELLM_API_KEY")
+           or _env("OPENROUTER_API_KEY", ""))
 
 # --- Model names ---
-# For OpenRouter these are provider slugs ("openai/gpt-4o-mini").
-# For a LiteLLM proxy these are the ALIASES your proxy exposes ("gpt-4o-mini").
-FAST_MODEL = os.environ.get("FAST_MODEL", "openai/gpt-4o-mini")   # cheap: multi-agent loops
-SMART_MODEL = os.environ.get("SMART_MODEL", "anthropic/claude-sonnet-4.5")  # quality: hero demos
+# LiteLLM proxy: aliases it exposes (LLM_MODEL_ID / LLM_SMALLER_MODEL_ID).
+# OpenRouter: provider slugs ("openai/gpt-4o-mini").
+if _litellm_mode:
+    # Prefer the proxy's own aliases; a leftover SMART_MODEL may hold an OpenRouter slug.
+    SMART_MODEL = _env("LLM_MODEL_ID") or _env("SMART_MODEL") or "gpt-4o"
+    FAST_MODEL = _env("LLM_SMALLER_MODEL_ID") or _env("FAST_MODEL") or "gpt-4o-mini"
+else:
+    SMART_MODEL = _env("SMART_MODEL") or _env("LLM_MODEL_ID") or "anthropic/claude-sonnet-4.5"
+    FAST_MODEL = _env("FAST_MODEL") or _env("LLM_SMALLER_MODEL_ID") or "openai/gpt-4o-mini"
 
 # LiteLLM-based tools (DSPy, CrewAI) treat the gateway as a generic OpenAI
 # endpoint: "openai/<model>" + api_base=BASE_URL. Works for BOTH gateways.
