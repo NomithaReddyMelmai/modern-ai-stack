@@ -1,7 +1,7 @@
 # Building AI Agents with LangChain & LangGraph
 ### Hands-on workshop — runbook
 
-**Focus:** two tools, deep. **LLM gateway:** one OpenAI-compatible endpoint (LiteLLM Proxy or OpenRouter). **Format:** Jupyter notebooks + a live Studio peek.
+**Focus:** two layers of the stack — **① Build & Orchestrate** (LangChain + LangGraph) and **② Debug & Ship** (LangGraph Studio + LangServe). **LLM gateway:** one OpenAI-compatible endpoint (LiteLLM Proxy or OpenRouter). **Format:** Jupyter notebooks + terminal demos.
 
 ---
 
@@ -28,15 +28,18 @@ One gateway powers everything — see the two blocks in [`.env.example`](.env.ex
 
 ## 90-minute flow
 
-| Min | Segment | Where |
-|----:|---|---|
-| 0–10 | Why a framework: a prompt isn't an agent | slides 1–3 |
-| 10–35 | **LangChain**: LCEL, tool calling, streaming | notebook 01 |
-| 35–45 | **The bridge**: the manual tool loop → why LangGraph | slide 5 (LangChain vs LangGraph) |
-| 45–80 | **LangGraph**: state graph, conditional edges, ReAct agent, memory, human-in-the-loop | notebook 02 |
-| 80–90 | **LangGraph Studio** peek + recap + Q&A | `langgraph dev` |
+| Min | Segment | Layer | Where |
+|----:|---|---|---|
+| 0–10 | Modern AI stack + why a framework | — | slides 1–3 |
+| 10–35 | **LangChain**: LCEL, tool calling, streaming | ① Build | notebook 01 |
+| 35–45 | **The bridge**: manual tool loop → why LangGraph | — | slide 5 |
+| 45–75 | **LangGraph**: state, conditional edges, ReAct, memory, HITL | ① Orchestrate | notebook 02 |
+| 75–85 | **LangGraph Studio**: visualize & debug the graph | ② Debug | `langgraph dev` |
+| 85–95 | **LangServe**: deploy the chain as an API | ② Ship | `demos/04_langserve.py` |
+| 95–100 | Recap ("two layers done") + tease Phases 5–8 | — | — |
 
-Deck: [`LangChain_LangGraph_Workshop.pptx`](LangChain_LangGraph_Workshop.pptx) (9 slides).
+Deck: [`LangChain_LangGraph_Workshop.pptx`](LangChain_LangGraph_Workshop.pptx) (10 slides).
+Roadmap & use case: `~/Desktop/acme-support-agent/` (`PLAN.md`, `USECASE.md`).
 
 ---
 
@@ -68,6 +71,15 @@ Submit a query → watch **agent → tools → agent** flow, open a node to insp
 then **fork & replay** from a step.
 - **Say:** *"Codegen writes the graph; Studio + tracing tell you if it actually works."*
 - **Full walkthrough + talking points:** [`STUDIO.md`](STUDIO.md). Needs `langgraph-cli[inmem]` ≥ 0.2 and a free LangSmith login for the UI (the graph runs locally).
+
+### ▶ LangServe (live, terminal) — deploy as an API
+```bash
+python demos/04_langserve.py            # leave it running
+```
+- Open **http://localhost:8000/support/playground/** (interactive UI) and **/docs** (OpenAPI).
+- Call it: `curl -s http://localhost:8000/support/invoke -H 'content-type: application/json' -d '{"input":{"question":"How long is the battery warranty?"}}'`
+- **Say:** *"`add_routes` turns any runnable into `/invoke` `/stream` `/batch` + a playground. Great for chains; for stateful agents in production, that's LangGraph Platform."*
+- ⚠️ Install **plain `langserve`** (not `langserve[all]`) — the `[all]` extra pins an old `sse-starlette` that breaks `langgraph dev`. Handled in `requirements.txt`.
 
 > Standalone scripts (same code, if you prefer a terminal to notebooks):
 > [`demos/01_langchain.py`](demos/01_langchain.py), [`demos/02_langgraph.py`](demos/02_langgraph.py).

@@ -7,9 +7,13 @@ langchain-openai
 langgraph
 langgraph-cli[inmem]>=0.2   # `langgraph dev` + LangGraph Studio (older 0.1.x lacks `dev`)
 
-# ---- Serving deps (LangGraph dev server) ----
+# ---- Serving / deployment (LangServe + LangGraph dev server) ----
+# NOTE: use plain `langserve` (NOT langserve[all]) — the [all] extra pins
+# sse-starlette<2, which breaks `langgraph dev`/Studio (needs >=2.1.3).
+langserve
 fastapi
 uvicorn
+sse-starlette>=2.1.3,<3.4.0   # shared by LangServe /stream and the LangGraph dev server
 
 # ---- Hands-on notebooks ----
 jupyterlab
