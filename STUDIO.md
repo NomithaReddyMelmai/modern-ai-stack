@@ -33,9 +33,13 @@ It reads [`langgraph.json`](langgraph.json) → loads the `agent` graph from
 It usually opens the browser automatically; if not, click the **Studio UI** link.
 
 ## 3 · What you'll see
-- The graph rendered as nodes + edges: **`__start__ → model → tools → model → __end__`**
-  (the ReAct loop).
-- An input box to submit a message to the agent.
+- A **graph dropdown** (top-left) with two graphs — switch between them:
+  - **`agent`** — the ReAct agent: `__start__ → model → tools → model → __end__` (a loop). Input: `messages`.
+  - **`pipeline`** — a from-scratch state graph: `__start__ → write → critique → __end__`. Input: `topic`.
+- An input box whose fields match the selected graph's **state schema**.
+
+> Nice contrast to show: the two graphs ask for **different inputs** (`messages` vs `topic`)
+> because Studio reads each graph's state schema. Registered in [`langgraph.json`](langgraph.json).
 
 ## 4 · The live demo (do these in order)
 1. **Submit a query:** *"How many Hauler units are in stock, and what's the total value?"*

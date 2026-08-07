@@ -1,7 +1,8 @@
 {
   "dependencies": ["."],
   "graphs": {
-    "agent": "./demos/studio_app/graph.py:graph"
+    "agent": "./demos/studio_app/graph.py:graph",
+    "pipeline": "./demos/studio_app/pipeline.py:graph"
   },
   "env": ".env"
 }
