@@ -33,13 +33,18 @@ It reads [`langgraph.json`](langgraph.json) → loads the `agent` graph from
 It usually opens the browser automatically; if not, click the **Studio UI** link.
 
 ## 3 · What you'll see
-- A **graph dropdown** (top-left) with two graphs — switch between them:
-  - **`agent`** — the ReAct agent: `__start__ → model → tools → model → __end__` (a loop). Input: `messages`.
-  - **`pipeline`** — a from-scratch state graph: `__start__ → write → critique → __end__`. Input: `topic`.
+- A **graph dropdown** (top-left) with four graphs — one per LangGraph example:
+  - **`agent`** — ReAct agent: `__start__ → model → tools → model → __end__` (a loop). Input: `messages`.
+  - **`pipeline`** — from-scratch state graph: `__start__ → write → critique → __end__`. Input: `topic`.
+  - **`router`** — conditional edges: `classify →` (math | chat). Input: `question`.
+  - **`hitl`** — human-in-the-loop: pauses **before tools** for approval. Input: `messages`.
 - An input box whose fields match the selected graph's **state schema**.
 
-> Nice contrast to show: the two graphs ask for **different inputs** (`messages` vs `topic`)
-> because Studio reads each graph's state schema. Registered in [`langgraph.json`](langgraph.json).
+> Nice contrast to show: each graph asks for **different inputs** (`messages` / `topic` /
+> `question`) because Studio reads each graph's state schema. All registered in
+> [`langgraph.json`](langgraph.json); the files live in `demos/studio_app/`.
+> **Best live moment:** run **`hitl`**, let it pause at the Interrupts panel, inspect the
+> pending tool call, then resume to approve.
 
 ## 4 · The live demo (do these in order)
 1. **Submit a query:** *"How many Hauler units are in stock, and what's the total value?"*

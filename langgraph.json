@@ -2,7 +2,9 @@
   "dependencies": ["."],
   "graphs": {
     "agent": "./demos/studio_app/graph.py:graph",
-    "pipeline": "./demos/studio_app/pipeline.py:graph"
+    "pipeline": "./demos/studio_app/pipeline.py:graph",
+    "router": "./demos/studio_app/router.py:graph",
+    "hitl": "./demos/studio_app/hitl.py:graph"
   },
   "env": ".env"
 }
