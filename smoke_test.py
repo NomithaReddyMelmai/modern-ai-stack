@@ -17,7 +17,7 @@ print("  ->", get_langchain_llm().invoke("Reply with the single word: READY").co
 
 print("3) Imports…")
 ok = True
-for m in ["langchain", "langchain_openai", "langgraph"]:
+for m in ["langchain", "langchain_openai", "langgraph", "langserve"]:
     try:
         importlib.import_module(m)
         print(f"  ✅ import {m}")
